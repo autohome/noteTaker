@@ -1,25 +1,23 @@
-const express = require('express');
+const api = require('express').Router();
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
 const fs = require('fs');
 
-const app = express();
-
 const notesDB = require('./db/db.json')
 
 // Sets up the Express app to handle data parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+api.use(express.urlencoded({ extended: true }));
+api.use(express.json());
 
 // Invoke app.use() and serve static files from the '/public' folder
-app.use(express.static('public'));
+api.use(express.static('public'));
 
-app.get('/notes', (req, res) => {
+api.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
     res.json(notesDB);
 });
 
-app.post('/notes', (req, res) => {
+api.post('/notes', (req, res) => {
     console.info(`${req.method} request received to add a note`);
     
     // destructure the assignment for the items in req.body
@@ -40,15 +38,12 @@ app.post('/notes', (req, res) => {
         // push new note
         const notesData = JSON.parse(fs.readFileSync('./db/db.json'))
         notesData.push(newNote)
-
+        
         fs.writeFile(`./db/db.json`, JSON.stringify(notesData, null, 3) , (err) =>
-        err
-        ? console.error(err)
-        : console.log(
-            `Review for ${newNote.title} has been written to JSON file`
-        )
-    );
-
+            err
+            ? console.error(err)
+            : console.info(`Note for ${newNote.title} has been written to JSON file`)
+        );
         console.log(response);
         res.status(201).json(response);
     } else {
@@ -65,7 +60,7 @@ app.post('/notes', (req, res) => {
 //   });
 
 // Delete route that returns any specific note
-app.delete('/notes/:id', (req, res) => {
+api.delete('/notes/:id', (req, res) => {
     if (req.params.id) {
     console.info(`${req.method} request received to delete a single note`);
     const noteId = req.params.id;
