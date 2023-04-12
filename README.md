@@ -23,7 +23,25 @@
 
 ## Usage
 
+[Home Page](https://safe-cliffs-56037.herokuapp.com/)
 
+![Home Page](./images/Home%20Page.png)
+
+Click get started to be sent to the [Notes Page](https://safe-cliffs-56037.herokuapp.com/notes)
+
+![Notes Page](./images/Notes%20page.png)
+
+Enter title and text and click save icon.
+
+![Step 1](./images/Step%20one.png)
+
+Click a note to view text
+
+![View Text](./images/results%20step%20one.png)
+
+Click on trash icon to delete a note
+
+![Delete note](./images/delete%20note.png)
 
 ## Credits
 
@@ -32,13 +50,6 @@ A big thank you to UCLA coding bootcampl staff and students
 ## License
 
 This application is covered by [MIT License](https://choosealicense.com/licenses/mit/)
-
-## Contribution Guidelines
-
-
-
-## Tests
-
 
 
 ## Questions
