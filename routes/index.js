@@ -13,7 +13,7 @@ const notesDB = require('../db/db.json')
 // api.use(express.json());
 
 // Invoke app.use() and serve static files from the '/public' folder
-// api.use(express.static('public'));
+api.use(express.static('public'));
 
 api.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
@@ -39,7 +39,7 @@ api.post('/notes', (req, res) => {
             body: newNote,
         };
         // push new note
-        const notesData = JSON.parse(fs.readFileSync('./db/db.json'))
+        const notesData = JSON.parse(fs.readFileSync(`./db/db.json`))
         notesData.push(newNote)
         
         fs.writeFile(`./db/db.json`, JSON.stringify(notesData, null, 3) , (err) =>
@@ -57,25 +57,34 @@ api.post('/notes', (req, res) => {
 // Delete route that returns any specific note
 api.delete('/notes/:id', (req, res) => {
     if (req.params.id) {
-    console.info(`${req.method} request received to delete a single note`);
-    const noteId = req.params.id;
-    for (let i = 0; i < notesDB.length; i++) {
-        const currentNote = notesDB[i];
-        if (currentNote.id === noteId) {
-            res.status(200).json(currentNote);
-            const notesData = JSON.parse(fs.readFileSync('./db/db.json'))
-            notesDB.splice(i, 1)
-            fs.writeFile(`./db/db.json`, JSON.stringify(notesData) , (err) =>
-            err
-                ? console.error(err)
-                : console.log(`Review for ${currentNote.title} has been written to JSON file`)
-            )
+        console.info(`${req.method} request received to delete a single note`);
+        const noteId = req.params.id;
+        let noteDeleted = false;
+
+        for (let i = 0; i < notesDB.length; i++) {
+            const currentNote = notesDB[i];
+            if (currentNote.id === noteId) {
+                const notesData = JSON.parse(fs.readFileSync('./db/db.json'))
+                notesData.splice(i, 1)
+                fs.writeFile(`./db/db.json`, JSON.stringify(notesData), (err) => {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        console.log(`Review for ${currentNote.title} has been written to JSON file`);
+                    }
+                });
+                noteDeleted = true;
+                res.status(200).json(currentNote);
+                
+                break;
+            }
         }
-    }
-    res.status(404).send('Review not found');
+
+        if (!noteDeleted) {
+            res.status(404).send('Review not found');
+        }
     } else {
         res.status(400).send('Review ID not provided');
     }
 });
-
 module.exports = api;
