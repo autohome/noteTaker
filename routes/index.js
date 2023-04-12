@@ -51,14 +51,6 @@ api.post('/notes', (req, res) => {
     }
 });
 
-// const deleteNote = (id) =>
-//   fetch(`/api/notes/${id}`, {
-//     method: 'DELETE',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-
 // Delete route that returns any specific note
 api.delete('/notes/:id', (req, res) => {
     if (req.params.id) {
