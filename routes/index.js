@@ -1,4 +1,5 @@
-const api = require('express').Router();
+const express = require('express');
+const api = express.Router();
 // const api = express.Router();
 // Helper method for generating unique ids
 const uuid = require('../helpers/uuid');
@@ -76,3 +77,5 @@ api.delete('/notes/:id', (req, res) => {
         res.status(400).send('Review ID not provided');
     }
 });
+
+module.exports = api;

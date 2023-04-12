@@ -6,6 +6,14 @@ const api = require('./routes/index.js')
 const app = express();
 const PORT = 3001;
 
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Invoke app.use() and serve static files from the '/public' folder
+app.use(express.static('public'));
+
+
 // modular routing for /api
 app.use('/api', api);
 
