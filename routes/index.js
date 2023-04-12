@@ -1,16 +1,18 @@
 const api = require('express').Router();
+// const api = express.Router();
 // Helper method for generating unique ids
-const uuid = require('./helpers/uuid');
+const uuid = require('../helpers/uuid');
 const fs = require('fs');
+const path = require("path");
 
-const notesDB = require('./db/db.json')
+const notesDB = require('../db/db.json')
 
 // Sets up the Express app to handle data parsing
-api.use(express.urlencoded({ extended: true }));
-api.use(express.json());
+// api.use(express.urlencoded({ extended: true }));
+// api.use(express.json());
 
 // Invoke app.use() and serve static files from the '/public' folder
-api.use(express.static('public'));
+// api.use(express.static('public'));
 
 api.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
@@ -65,7 +67,7 @@ api.delete('/notes/:id', (req, res) => {
             fs.writeFile(`./db/db.json`, JSON.stringify(notesData) , (err) =>
             err
                 ? console.error(err)
-                : console.log(`Review for ${newNote.title} has been written to JSON file`)
+                : console.log(`Review for ${currentNote.title} has been written to JSON file`)
             )
         }
     }
